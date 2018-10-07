@@ -20,10 +20,15 @@ import org.springframework.samples.petclinic.visit.VisitRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Map;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 /**
  * @author Juergen Hoeller
@@ -31,17 +36,22 @@ import java.util.Map;
  * @author Arjen Poutsma
  * @author Michael Isvy
  * @author Dave Syer
+ * @author Maciej Walkowiak
  */
 @Controller
 class VisitController {
 
     private final VisitRepository visits;
     private final PetRepository pets;
+    private final OwnerRepository owners;
 
 
-    public VisitController(VisitRepository visits, PetRepository pets) {
+    public VisitController(VisitRepository visits,
+                           PetRepository pets,
+                           OwnerRepository owners) {
         this.visits = visits;
         this.pets = pets;
+        this.owners = owners;
     }
 
     @InitBinder
@@ -60,17 +70,19 @@ class VisitController {
      * @return Pet
      */
     @ModelAttribute("visit")
-    public Visit loadPetWithVisit(@PathVariable("petId") int petId, Map<String, Object> model) {
+    public Visit loadPetWithVisit(@PathVariable("petId") Integer petId, Map<String, Object> model) {
         Pet pet = this.pets.findById(petId);
         model.put("pet", pet);
+        model.put("owner", this.owners.findById(pet.getOwner()));
         Visit visit = new Visit();
-        pet.addVisit(visit);
+        model.put("visit", visit);
+        model.put("petVisits", this.visits.findByPetId(petId));
         return visit;
     }
 
     // Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
     @GetMapping("/owners/*/pets/{petId}/visits/new")
-    public String initNewVisitForm(@PathVariable("petId") int petId, Map<String, Object> model) {
+    public String initNewVisitForm(@PathVariable("petId") Long petId, Map<String, Object> model) {
         return "pets/createOrUpdateVisitForm";
     }
 

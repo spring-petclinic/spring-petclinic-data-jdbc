@@ -15,17 +15,58 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 
-import org.springframework.samples.petclinic.model.NamedEntity;
+import java.util.Objects;
 
 /**
+ * Can be Cat, Dog, Hamster...
+ *
  * @author Juergen Hoeller
- *         Can be Cat, Dog, Hamster...
+ * @author Maciej Walkowiak
  */
-@Entity
-@Table(name = "types")
-public class PetType extends NamedEntity {
+public class PetType {
 
+    @Id
+    private Long id;
+
+    @Column("name")
+    private String name;
+
+    PetType(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        PetType petType = (PetType) o;
+        return Objects.equals(id, petType.id) &&
+               Objects.equals(name, petType.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

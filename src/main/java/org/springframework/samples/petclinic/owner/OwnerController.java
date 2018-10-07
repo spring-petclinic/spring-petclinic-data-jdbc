@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import org.springframework.samples.petclinic.visit.Visit;
+import org.springframework.samples.petclinic.visit.VisitRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,25 +27,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 /**
  * @author Juergen Hoeller
  * @author Ken Krebs
  * @author Arjen Poutsma
  * @author Michael Isvy
+ * @author Maciej Walkowiak
  */
 @Controller
 class OwnerController {
 
     private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
     private final OwnerRepository owners;
+    private final PetRepository pets;
+    private final VisitRepository visits;
 
-
-    public OwnerController(OwnerRepository clinicService) {
+    public OwnerController(OwnerRepository clinicService, PetRepository pets, VisitRepository visits) {
         this.owners = clinicService;
+        this.pets = pets;
+        this.visits = visits;
     }
 
     @InitBinder
@@ -83,14 +92,17 @@ class OwnerController {
         }
 
         // find owners by last name
-        Collection<Owner> results = this.owners.findByLastName(owner.getLastName());
+        Collection<OwnerDetails> results = this.owners.findByLastName(owner.getLastName())
+                                                      .stream()
+                                                      .map(o -> new OwnerDetails(o, this.pets.findByOwnerId(o.getId())))
+                                                      .collect(Collectors.toList());
         if (results.isEmpty()) {
             // no owners found
             result.rejectValue("lastName", "notFound", "not found");
             return "owners/findOwners";
         } else if (results.size() == 1) {
             // 1 owner found
-            owner = results.iterator().next();
+            owner = results.iterator().next().getOwner();
             return "redirect:/owners/" + owner.getId();
         } else {
             // multiple owners found
@@ -127,7 +139,53 @@ class OwnerController {
     public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(this.owners.findById(ownerId));
+        mav.addObject("pets", this.pets.findByOwnerId(ownerId)
+                     .stream()
+                     .map(pet -> new PetDetails(pet, this.pets.findPetType(pet.getType()), this.visits.findByPetId(pet.getId())))
+                     .collect(Collectors.toList()));
         return mav;
+    }
+
+    static class OwnerDetails {
+        private final Owner owner;
+        private final List<Pet> pets;
+
+        OwnerDetails(Owner owner, List<Pet> pets) {
+            this.owner = owner;
+            this.pets = pets;
+        }
+
+        public Owner getOwner() {
+            return owner;
+        }
+
+        public List<Pet> getPets() {
+            return pets;
+        }
+    }
+
+    static class PetDetails {
+        private final Pet pet;
+        private final PetType type;
+        private final List<Visit> visits;
+
+        PetDetails(Pet pet, PetType type, List<Visit> visits) {
+            this.pet = pet;
+            this.type = type;
+            this.visits = visits;
+        }
+
+        public Pet getPet() {
+            return pet;
+        }
+
+        public PetType getType() {
+            return type;
+        }
+
+        public List<Visit> getVisits() {
+            return visits;
+        }
     }
 
 }

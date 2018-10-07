@@ -15,12 +15,12 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import java.util.Collection;
-
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant with Spring Data naming
@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @author Michael Isvy
+ * @author Maciej Walkowiak
  */
 public interface OwnerRepository extends Repository<Owner, Integer> {
 
@@ -40,7 +41,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
      * @return a Collection of matching {@link Owner}s (or an empty Collection if none
      * found)
      */
-    @Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
+    @Query("SELECT * FROM owner WHERE last_name LIKE concat(:lastName,'%')")
     @Transactional(readOnly = true)
     Collection<Owner> findByLastName(@Param("lastName") String lastName);
 
@@ -49,7 +50,6 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
      * @param id the id to search for
      * @return the {@link Owner} if found
      */
-    @Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
     @Transactional(readOnly = true)
     Owner findById(@Param("id") Integer id);
 

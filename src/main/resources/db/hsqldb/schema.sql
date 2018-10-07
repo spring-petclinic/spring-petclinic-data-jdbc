@@ -1,39 +1,39 @@
-DROP TABLE vet_specialties IF EXISTS;
-DROP TABLE vets IF EXISTS;
-DROP TABLE specialties IF EXISTS;
-DROP TABLE visits IF EXISTS;
-DROP TABLE pets IF EXISTS;
-DROP TABLE types IF EXISTS;
-DROP TABLE owners IF EXISTS;
+DROP TABLE vet_specialty IF EXISTS;
+DROP TABLE vet IF EXISTS;
+DROP TABLE specialty IF EXISTS;
+DROP TABLE visit IF EXISTS;
+DROP TABLE pet IF EXISTS;
+DROP TABLE pet_type IF EXISTS;
+DROP TABLE owner IF EXISTS;
 
 
-CREATE TABLE vets (
+CREATE TABLE vet (
   id         INTEGER IDENTITY PRIMARY KEY,
   first_name VARCHAR(30),
   last_name  VARCHAR(30)
 );
-CREATE INDEX vets_last_name ON vets (last_name);
+CREATE INDEX vet_last_name ON vet (last_name);
 
-CREATE TABLE specialties (
+CREATE TABLE specialty (
   id   INTEGER IDENTITY PRIMARY KEY,
   name VARCHAR(80)
 );
-CREATE INDEX specialties_name ON specialties (name);
+CREATE INDEX specialty_name ON specialty (name);
 
-CREATE TABLE vet_specialties (
-  vet_id       INTEGER NOT NULL,
-  specialty_id INTEGER NOT NULL
+CREATE TABLE vet_specialty (
+  vet       INTEGER NOT NULL,
+  specialty INTEGER NOT NULL
 );
-ALTER TABLE vet_specialties ADD CONSTRAINT fk_vet_specialties_vets FOREIGN KEY (vet_id) REFERENCES vets (id);
-ALTER TABLE vet_specialties ADD CONSTRAINT fk_vet_specialties_specialties FOREIGN KEY (specialty_id) REFERENCES specialties (id);
+ALTER TABLE vet_specialty ADD CONSTRAINT fk_vet_specialty_vet FOREIGN KEY (vet) REFERENCES vet (id);
+ALTER TABLE vet_specialty ADD CONSTRAINT fk_vet_specialty_specialty FOREIGN KEY (specialty) REFERENCES specialty (id);
 
-CREATE TABLE types (
+CREATE TABLE pet_type (
   id   INTEGER IDENTITY PRIMARY KEY,
   name VARCHAR(80)
 );
-CREATE INDEX types_name ON types (name);
+CREATE INDEX pet_type_name ON pet_type (name);
 
-CREATE TABLE owners (
+CREATE TABLE owner (
   id         INTEGER IDENTITY PRIMARY KEY,
   first_name VARCHAR(30),
   last_name  VARCHAR_IGNORECASE(30),
@@ -41,24 +41,24 @@ CREATE TABLE owners (
   city       VARCHAR(80),
   telephone  VARCHAR(20)
 );
-CREATE INDEX owners_last_name ON owners (last_name);
+CREATE INDEX owners_last_name ON owner (last_name);
 
-CREATE TABLE pets (
+CREATE TABLE pet (
   id         INTEGER IDENTITY PRIMARY KEY,
   name       VARCHAR(30),
   birth_date DATE,
   type_id    INTEGER NOT NULL,
   owner_id   INTEGER NOT NULL
 );
-ALTER TABLE pets ADD CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
-ALTER TABLE pets ADD CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id);
-CREATE INDEX pets_name ON pets (name);
+ALTER TABLE pet ADD CONSTRAINT fk_pet_owners FOREIGN KEY (owner_id) REFERENCES owner (id);
+ALTER TABLE pet ADD CONSTRAINT fk_pet_pet_type FOREIGN KEY (type_id) REFERENCES pet_type (id);
+CREATE INDEX pets_name ON pet (name);
 
-CREATE TABLE visits (
+CREATE TABLE visit (
   id          INTEGER IDENTITY PRIMARY KEY,
   pet_id      INTEGER NOT NULL,
-  visit_date  DATE,
+  date  DATE,
   description VARCHAR(255)
 );
-ALTER TABLE visits ADD CONSTRAINT fk_visits_pets FOREIGN KEY (pet_id) REFERENCES pets (id);
-CREATE INDEX visits_pet_id ON visits (pet_id);
+ALTER TABLE visit ADD CONSTRAINT fk_visit_pets FOREIGN KEY (pet_id) REFERENCES pet (id);
+CREATE INDEX visit_pet_id ON visit (pet_id);

@@ -4,11 +4,11 @@
   th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
 
   <body>
-  
-  
+
+
     <h2>Owner Information</h2>
-  
-  
+
+
     <table class="table table-striped" th:object="${owner}">
       <tr>
         <th>Name</th>
@@ -27,29 +27,29 @@
         <td th:text="*{telephone}" /></td>
       </tr>
     </table>
-  
+
     <a th:href="@{{id}/edit(id=${owner.id})}" class="btn btn-default">Edit
       Owner</a>
     <a th:href="@{{id}/pets/new(id=${owner.id})}" class="btn btn-default">Add
       New Pet</a>
-  
+
     <br />
     <br />
     <br />
     <h2>Pets and Visits</h2>
-  
+
     <table class="table table-striped">
-  
-      <tr th:each="pet : ${owner.pets}">
+
+      <tr th:each="pet : ${pets}">
         <td valign="top">
           <dl class="dl-horizontal">
             <dt>Name</dt>
-            <dd th:text="${pet.name}" /></dd>
+            <dd th:text="${pet.pet.name}" /></dd>
             <dt>Birth Date</dt>
             <dd
-              th:text="${#temporals.format(pet.birthDate, 'yyyy-MM-dd')}" /></dd>
+              th:text="${#temporals.format(pet.pet.birthDate, 'yyyy-MM-dd')}" /></dd>
             <dt>Type</dt>
-            <dd th:text="${pet.type}" /></dd>
+            <dd th:text="${pet.type.name}" /></dd>
           </dl>
         </td>
         <td valign="top">
@@ -66,18 +66,18 @@
             </tr>
             <tr>
               <td><a
-                th:href="@{{ownerId}/pets/{petId}/edit(ownerId=${owner.id},petId=${pet.id})}">Edit
+                th:href="@{{ownerId}/pets/{petId}/edit(ownerId=${owner.id},petId=${pet.pet.id})}">Edit
                   Pet</a></td>
               <td><a
-                th:href="@{{ownerId}/pets/{petId}/visits/new(ownerId=${owner.id},petId=${pet.id})}">Add
+                th:href="@{{ownerId}/pets/{petId}/visits/new(ownerId=${owner.id},petId=${pet.pet.id})}">Add
                   Visit</a></td>
             </tr>
           </table>
         </td>
       </tr>
-  
+
     </table>
-  
+
   </body>
 
 </html>

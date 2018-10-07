@@ -15,35 +15,31 @@
  */
 package org.springframework.samples.petclinic.visit;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.samples.petclinic.model.BaseEntity;
 
 /**
  * Simple JavaBean domain object representing a visit.
  *
  * @author Ken Krebs
  * @author Dave Syer
+ * @author Maciej Walkowiak
  */
-@Entity
-@Table(name = "visits")
-public class Visit extends BaseEntity {
+public class Visit {
 
-    @Column(name = "visit_date")
+    @Id
+    private Long id;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @NotEmpty
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "pet_id")
     private Integer petId;
 
     /**
@@ -77,4 +73,21 @@ public class Visit extends BaseEntity {
         this.petId = petId;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public boolean isNew() {
+        return id == null;
+    }
+
+    @Override
+    public String toString() {
+        return "Visit{" +
+               "id=" + id +
+               ", date=" + date +
+               ", description='" + description + '\'' +
+               ", petId=" + petId +
+               '}';
+    }
 }

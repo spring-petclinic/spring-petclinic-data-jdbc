@@ -15,11 +15,12 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Repository class for <code>Pet</code> domain objects All method names are compliant with Spring Data naming
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @author Michael Isvy
+ * @author Maciej Walkowiak
  */
 public interface PetRepository extends Repository<Pet, Integer> {
 
@@ -36,9 +38,12 @@ public interface PetRepository extends Repository<Pet, Integer> {
      * Retrieve all {@link PetType}s from the data store.
      * @return a Collection of {@link PetType}s.
      */
-    @Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
+    @Query("select * from pet_type order by name")
     @Transactional(readOnly = true)
     List<PetType> findPetTypes();
+
+    @Query("select * from pet_type where id = :typeId")
+    PetType findPetType(@Param("typeId") Integer id);
 
     /**
      * Retrieve a {@link Pet} from the data store by id.
@@ -54,5 +59,10 @@ public interface PetRepository extends Repository<Pet, Integer> {
      */
     void save(Pet pet);
 
+    @Query("select * from pet where owner_id = :ownerId and name = :name")
+    List<Pet> findByOwnerIdAndName(@Param("ownerId") Integer ownerId, @Param("name") String name);
+
+    @Query("select * from pet where owner_id = :ownerId")
+    List<Pet> findByOwnerId(@Param("ownerId") Integer id);
 }
 

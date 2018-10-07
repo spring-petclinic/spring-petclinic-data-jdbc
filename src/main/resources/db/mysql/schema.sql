@@ -8,34 +8,34 @@ GRANT ALL PRIVILEGES ON petclinic.* TO pc@localhost IDENTIFIED BY 'pc';
 
 USE petclinic;
 
-CREATE TABLE IF NOT EXISTS vets (
+CREATE TABLE IF NOT EXISTS vet (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30),
   last_name VARCHAR(30),
   INDEX(last_name)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS specialties (
+CREATE TABLE IF NOT EXISTS specialty (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(80),
   INDEX(name)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS vet_specialties (
-  vet_id INT(4) UNSIGNED NOT NULL,
-  specialty_id INT(4) UNSIGNED NOT NULL,
-  FOREIGN KEY (vet_id) REFERENCES vets(id),
-  FOREIGN KEY (specialty_id) REFERENCES specialties(id),
-  UNIQUE (vet_id,specialty_id)
+CREATE TABLE IF NOT EXISTS vet_specialty (
+  vet INT(4) UNSIGNED NOT NULL,
+  specialty INT(4) UNSIGNED NOT NULL,
+  FOREIGN KEY (vet) REFERENCES vet(id),
+  FOREIGN KEY (specialty) REFERENCES specialty(id),
+  UNIQUE (vet,specialty)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS types (
+CREATE TABLE IF NOT EXISTS pet_type (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(80),
   INDEX(name)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS owners (
+CREATE TABLE IF NOT EXISTS owner (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30),
   last_name VARCHAR(30),
@@ -45,21 +45,21 @@ CREATE TABLE IF NOT EXISTS owners (
   INDEX(last_name)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS pets (
+CREATE TABLE IF NOT EXISTS pet (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30),
   birth_date DATE,
   type_id INT(4) UNSIGNED NOT NULL,
   owner_id INT(4) UNSIGNED NOT NULL,
   INDEX(name),
-  FOREIGN KEY (owner_id) REFERENCES owners(id),
-  FOREIGN KEY (type_id) REFERENCES types(id)
+  FOREIGN KEY (owner_id) REFERENCES owner(id),
+  FOREIGN KEY (type_id) REFERENCES pet_type(id)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS visits (
+CREATE TABLE IF NOT EXISTS visit (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   pet_id INT(4) UNSIGNED NOT NULL,
-  visit_date DATE,
+  date DATE,
   description VARCHAR(255),
-  FOREIGN KEY (pet_id) REFERENCES pets(id)
+  FOREIGN KEY (pet_id) REFERENCES pet(id)
 ) engine=InnoDB;

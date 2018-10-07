@@ -34,21 +34,24 @@ public class VetControllerTests {
     @MockBean
     private VetRepository vets;
 
+    @MockBean
+    private SpecialtyRepository specialties;
+
     @Before
     public void setup() {
         Vet james = new Vet();
         james.setFirstName("James");
         james.setLastName("Carter");
-        james.setId(1);
+        james.setId(1L);
         Vet helen = new Vet();
         helen.setFirstName("Helen");
         helen.setLastName("Leary");
-        helen.setId(2);
-        Specialty radiology = new Specialty();
-        radiology.setId(1);
-        radiology.setName("radiology");
+        helen.setId(2L);
+        Specialty radiology = new Specialty("radiology");
+        radiology.setId(1L);
         helen.addSpecialty(radiology);
         given(this.vets.findAll()).willReturn(Lists.newArrayList(james, helen));
+        given(this.specialties.findById(1L)).willReturn(radiology);
     }
 
     @Test

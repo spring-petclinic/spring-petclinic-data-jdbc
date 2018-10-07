@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.owner.OwnerController;
 import org.springframework.samples.petclinic.owner.OwnerRepository;
+import org.springframework.samples.petclinic.visit.VisitRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -38,6 +39,12 @@ public class OwnerControllerTests {
 
     @MockBean
     private OwnerRepository owners;
+
+    @MockBean
+    private PetRepository pets;
+
+    @MockBean
+    private VisitRepository visits;
 
     private Owner george;
 

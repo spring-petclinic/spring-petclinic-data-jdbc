@@ -20,15 +20,22 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Collection;
 
 import javax.validation.Valid;
-import java.util.Collection;
 
 /**
  * @author Juergen Hoeller
  * @author Ken Krebs
  * @author Arjen Poutsma
+ * @author Maciej Walkowiak
  */
 @Controller
 @RequestMapping("/owners/{ownerId}")
@@ -66,17 +73,17 @@ class PetController {
     @GetMapping("/pets/new")
     public String initCreationForm(Owner owner, ModelMap model) {
         Pet pet = new Pet();
-        owner.addPet(pet);
+        pet.setOwner(owner);
         model.put("pet", pet);
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
 
     @PostMapping("/pets/new")
     public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
-        if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
+        if (StringUtils.hasLength(pet.getName()) && pet.isNew() && !pets.findByOwnerIdAndName(owner.getId(), pet.getName()).isEmpty()){
             result.rejectValue("name", "duplicate", "already exists");
         }
-        owner.addPet(pet);
+        pet.setOwner(owner);
         if (result.hasErrors()) {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -90,6 +97,7 @@ class PetController {
     public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
         Pet pet = this.pets.findById(petId);
         model.put("pet", pet);
+        model.put("owner", this.owners.findById(pet.getOwner()));
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
 
@@ -100,7 +108,7 @@ class PetController {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         } else {
-            owner.addPet(pet);
+            pet.setOwner(owner);
             this.pets.save(pet);
             return "redirect:/owners/{ownerId}";
         }

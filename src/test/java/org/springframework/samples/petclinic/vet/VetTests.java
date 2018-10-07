@@ -32,7 +32,7 @@ public class VetTests {
         Vet vet = new Vet();
         vet.setFirstName("Zaphod");
         vet.setLastName("Beeblebrox");
-        vet.setId(123);
+        vet.setId(123L);
         Vet other = (Vet) SerializationUtils
                 .deserialize(SerializationUtils.serialize(vet));
         assertThat(other.getFirstName()).isEqualTo(vet.getFirstName());

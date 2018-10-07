@@ -40,6 +40,9 @@ public class VisitControllerTests {
     @MockBean
     private PetRepository pets;
 
+    @MockBean
+    private OwnerRepository owners;
+
     @Before
     public void init() {
         given(this.pets.findById(TEST_PET_ID)).willReturn(new Pet());

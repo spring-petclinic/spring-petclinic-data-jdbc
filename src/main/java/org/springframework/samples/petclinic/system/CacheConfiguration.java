@@ -19,6 +19,7 @@ class CacheConfiguration {
     public JCacheManagerCustomizer petclinicCacheConfigurationCustomizer() {
         return cm -> {
             cm.createCache("vets", cacheConfiguration());
+            cm.createCache("specialty", cacheConfiguration());
         };
     }
 

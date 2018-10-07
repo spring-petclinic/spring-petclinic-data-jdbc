@@ -15,28 +15,11 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.samples.petclinic.model.NamedEntity;
-import org.springframework.samples.petclinic.visit.Visit;
+
+import java.time.LocalDate;
 
 /**
  * Simple business object representing a pet.
@@ -44,25 +27,23 @@ import org.springframework.samples.petclinic.visit.Visit;
  * @author Ken Krebs
  * @author Juergen Hoeller
  * @author Sam Brannen
+ * @author Maciej Walkowiak
  */
-@Entity
-@Table(name = "pets")
-public class Pet extends NamedEntity {
+public class Pet {
 
-    @Column(name = "birth_date")
+    @Id
+    private Integer id;
+
+    private String name;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private PetType type;
+    @Column("type_id")
+    private Integer type;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private Owner owner;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "petId", fetch = FetchType.EAGER)
-    private Set<Visit> visits = new LinkedHashSet<>();
+    @Column("owner_id")
+    private Integer owner;
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -72,43 +53,50 @@ public class Pet extends NamedEntity {
         return this.birthDate;
     }
 
-    public PetType getType() {
+    public Integer getType() {
         return this.type;
     }
 
-    public void setType(PetType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public Owner getOwner() {
+    public Integer getOwner() {
         return this.owner;
     }
 
-    protected void setOwner(Owner owner) {
-        this.owner = owner;
+    public void setOwner(Owner owner) {
+        this.owner = owner.getId();
     }
 
-    protected Set<Visit> getVisitsInternal() {
-        if (this.visits == null) {
-            this.visits = new HashSet<>();
-        }
-        return this.visits;
+    public boolean isNew() {
+        return this.id == null;
     }
 
-    protected void setVisitsInternal(Set<Visit> visits) {
-        this.visits = visits;
+    public String getName() {
+        return name;
     }
 
-    public List<Visit> getVisits() {
-        List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
-        PropertyComparator.sort(sortedVisits,
-                new MutableSortDefinition("date", false, false));
-        return Collections.unmodifiableList(sortedVisits);
+    public Integer getId() {
+        return id;
     }
 
-    public void addVisit(Visit visit) {
-        getVisitsInternal().add(visit);
-        visit.setPetId(this.getId());
+    public void setName(String name) {
+        this.name = name;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+               "id=" + id +
+               ", name='" + name + '\'' +
+               ", birthDate=" + birthDate +
+               ", type=" + type +
+               ", owner=" + owner +
+               '}';
+    }
 }

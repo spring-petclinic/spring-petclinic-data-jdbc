@@ -15,23 +15,16 @@
  */
 package org.springframework.samples.petclinic.vet;
 
+import org.springframework.data.annotation.Id;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
-
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
-import org.springframework.samples.petclinic.model.Person;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * Simple JavaBean domain object representing a veterinarian.
@@ -40,31 +33,30 @@ import org.springframework.samples.petclinic.model.Person;
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @author Arjen Poutsma
+ * @author Maciej Walkowiak
  */
-@Entity
-@Table(name = "vets")
-public class Vet extends Person {
+public class Vet implements Serializable {
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"), inverseJoinColumns = @JoinColumn(name = "specialty_id"))
-    private Set<Specialty> specialties;
+    @Id
+    private Long id;
 
-    protected Set<Specialty> getSpecialtiesInternal() {
+    @NotEmpty
+    private String firstName;
+
+    @NotEmpty
+    private String lastName;
+
+    private Set<SpecialtyRef> specialties;
+
+    protected Set<SpecialtyRef> getSpecialtiesInternal() {
         if (this.specialties == null) {
             this.specialties = new HashSet<>();
         }
         return this.specialties;
     }
 
-    protected void setSpecialtiesInternal(Set<Specialty> specialties) {
-        this.specialties = specialties;
-    }
-
-    @XmlElement
-    public List<Specialty> getSpecialties() {
-        List<Specialty> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
-        PropertyComparator.sort(sortedSpecs,
-                new MutableSortDefinition("name", true, true));
+    public List<SpecialtyRef> getSpecialties() {
+        List<SpecialtyRef> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
         return Collections.unmodifiableList(sortedSpecs);
     }
 
@@ -73,7 +65,30 @@ public class Vet extends Person {
     }
 
     public void addSpecialty(Specialty specialty) {
-        getSpecialtiesInternal().add(specialty);
+        getSpecialtiesInternal().add(new SpecialtyRef(specialty.getId()));
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }
