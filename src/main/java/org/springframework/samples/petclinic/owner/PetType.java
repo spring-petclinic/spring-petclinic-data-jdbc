@@ -31,7 +31,6 @@ public class PetType {
     @Id
     private Long id;
 
-    @Column("name")
     private String name;
 
     PetType(Long id, String name) {
