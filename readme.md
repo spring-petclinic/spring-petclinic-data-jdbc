@@ -5,4 +5,4 @@ This is a branch of the official [Spring PetClinic](https://github.com/spring-pr
 Check original project [readme](https://github.com/spring-projects/spring-petclinic/blob/master/readme.md) for introduction the project, how to run, and how to contribute.
 
 ## Understanding the Spring Petclinic application with a few diagrams
-<a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
+[See the presentation here](http://fr.slideshare.net/AntoineRey/spring-framework-petclinic-sample-application)
