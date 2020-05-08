@@ -2,8 +2,6 @@ package org.springframework.samples.petclinic.vet;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-
 /**
  * @author Maciej Walkowiak
  */
@@ -20,7 +18,6 @@ public class VetDto {
         this.specialties = specialities;
     }
 
-    @XmlElement
     public Long getId() {
         return id;
     }
@@ -33,7 +30,6 @@ public class VetDto {
         return lastName;
     }
 
-    @XmlElement
     public List<Specialty> getSpecialties() {
         return specialties;
     }

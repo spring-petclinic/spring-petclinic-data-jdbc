@@ -6,21 +6,22 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Test class for {@link PetTypeFormatter}
  *
  * @author Colin But
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PetTypeFormatterTests {
 
     @Mock
@@ -28,7 +29,7 @@ public class PetTypeFormatterTests {
 
     private PetTypeFormatter petTypeFormatter;
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.petTypeFormatter = new PetTypeFormatter(pets);
     }
@@ -37,20 +38,22 @@ public class PetTypeFormatterTests {
     public void testPrint() {
         PetType petType = new PetType(3L, "Hamster");
         String petTypeName = this.petTypeFormatter.print(petType, Locale.ENGLISH);
-        assertEquals("Hamster", petTypeName);
+        assertThat(petTypeName).isEqualTo("Hamster");
     }
 
     @Test
     public void shouldParse() throws ParseException {
         Mockito.when(this.pets.findPetTypes()).thenReturn(makePetTypes());
         PetType petType = petTypeFormatter.parse("Bird", Locale.ENGLISH);
-        assertEquals("Bird", petType.getName());
+        assertThat(petType.getName()).isEqualTo("Bird");
     }
 
-    @Test(expected = ParseException.class)
+    @Test
     public void shouldThrowParseException() throws ParseException {
         Mockito.when(this.pets.findPetTypes()).thenReturn(makePetTypes());
-        petTypeFormatter.parse("Fish", Locale.ENGLISH);
+
+        assertThatThrownBy(() -> petTypeFormatter.parse("Fish", Locale.ENGLISH))
+            .isInstanceOf(ParseException.class);
     }
 
     /**
