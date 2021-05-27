@@ -29,7 +29,7 @@ public class VetTests {
 
     @Test
     public void testSerialization() {
-        Vet vet = new Vet();
+        var vet = new Vet();
         vet.setFirstName("Zaphod");
         vet.setLastName("Beeblebrox");
         vet.setId(123L);

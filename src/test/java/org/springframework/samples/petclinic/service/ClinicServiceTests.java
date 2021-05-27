@@ -127,8 +127,8 @@ public class ClinicServiceTests {
     @Test
     public void shouldFindAllPetTypesOrderedByName() {
         List<PetType> petTypes = this.pets.findPetTypes();
-        assertThat(petTypes.get(0).getName()).isEqualTo("bird");
-        assertThat(petTypes.get(4).getName()).isEqualTo("lizard");
+        assertThat(petTypes.get(0).name()).isEqualTo("bird");
+        assertThat(petTypes.get(4).name()).isEqualTo("lizard");
     }
 
     @Test

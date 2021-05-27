@@ -62,7 +62,7 @@ class OwnerController {
 
     @GetMapping("/owners/new")
     public String initCreationForm(Map<String, Object> model) {
-        Owner owner = new Owner();
+        var owner = new Owner();
         model.put("owner", owner);
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
@@ -92,7 +92,7 @@ class OwnerController {
         }
 
         // find owners by last name
-        Collection<OwnerDetails> results = this.owners.findByLastName(owner.getLastName())
+        var results = this.owners.findByLastName(owner.getLastName())
                                                       .stream()
                                                       .map(o -> new OwnerDetails(o, this.pets.findByOwnerId(o.getId())))
                                                       .collect(Collectors.toList());
@@ -102,7 +102,7 @@ class OwnerController {
             return "owners/findOwners";
         } else if (results.size() == 1) {
             // 1 owner found
-            owner = results.iterator().next().getOwner();
+            owner = results.iterator().next().owner();
             return "redirect:/owners/" + owner.getId();
         } else {
             // multiple owners found
@@ -113,7 +113,7 @@ class OwnerController {
 
     @GetMapping("/owners/{ownerId}/edit")
     public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
-        Owner owner = this.owners.findById(ownerId);
+        var owner = this.owners.findById(ownerId);
         model.addAttribute(owner);
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
@@ -137,7 +137,7 @@ class OwnerController {
      */
     @GetMapping("/owners/{ownerId}")
     public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
-        ModelAndView mav = new ModelAndView("owners/ownerDetails");
+        var mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(this.owners.findById(ownerId));
         mav.addObject("pets", this.pets.findByOwnerId(ownerId)
                      .stream()
@@ -146,46 +146,8 @@ class OwnerController {
         return mav;
     }
 
-    static class OwnerDetails {
-        private final Owner owner;
-        private final List<Pet> pets;
+    static record OwnerDetails(Owner owner, List<Pet> pets) {}
 
-        OwnerDetails(Owner owner, List<Pet> pets) {
-            this.owner = owner;
-            this.pets = pets;
-        }
-
-        public Owner getOwner() {
-            return owner;
-        }
-
-        public List<Pet> getPets() {
-            return pets;
-        }
-    }
-
-    static class PetDetails {
-        private final Pet pet;
-        private final PetType type;
-        private final List<Visit> visits;
-
-        PetDetails(Pet pet, PetType type, List<Visit> visits) {
-            this.pet = pet;
-            this.type = type;
-            this.visits = visits;
-        }
-
-        public Pet getPet() {
-            return pet;
-        }
-
-        public PetType getType() {
-            return type;
-        }
-
-        public List<Visit> getVisits() {
-            return visits;
-        }
-    }
+    static record PetDetails(Pet pet, PetType type, List<Visit> visits) {}
 
 }
