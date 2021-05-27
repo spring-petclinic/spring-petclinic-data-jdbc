@@ -17,40 +17,10 @@ package org.springframework.samples.petclinic.vet;
 
 import org.springframework.data.annotation.Id;
 
-import java.io.Serializable;
-
 /**
  * Models a {@link Vet Vet's} specialty (for example, dentistry).
  *
  * @author Juergen Hoeller
  * @author Maciej Walkowiak
  */
-public class Specialty implements Serializable {
-    @Id
-    private Long id;
-    private String name;
-
-    Specialty(String name) {
-        this.name = name;
-    }
-
-    Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Specialty{" +
-               "id=" + id +
-               ", name='" + name + '\'' +
-               '}';
-    }
-}
+public record Specialty(@Id Long id, String name) {}

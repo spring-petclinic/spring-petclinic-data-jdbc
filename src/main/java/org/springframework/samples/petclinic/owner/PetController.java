@@ -72,7 +72,7 @@ class PetController {
 
     @GetMapping("/pets/new")
     public String initCreationForm(Owner owner, ModelMap model) {
-        Pet pet = new Pet();
+        var pet = new Pet();
         pet.setOwner(owner);
         model.put("pet", pet);
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -95,7 +95,7 @@ class PetController {
 
     @GetMapping("/pets/{petId}/edit")
     public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
-        Pet pet = this.pets.findById(petId);
+        var pet = this.pets.findById(petId);
         model.put("pet", pet);
         model.put("owner", this.owners.findById(pet.getOwner()));
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;

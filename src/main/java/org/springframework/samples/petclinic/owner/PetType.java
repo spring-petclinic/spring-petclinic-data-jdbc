@@ -16,9 +16,6 @@
 package org.springframework.samples.petclinic.owner;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-
-import java.util.Objects;
 
 /**
  * Can be Cat, Dog, Hamster...
@@ -26,46 +23,4 @@ import java.util.Objects;
  * @author Juergen Hoeller
  * @author Maciej Walkowiak
  */
-public class PetType {
-
-    @Id
-    private Long id;
-
-    private String name;
-
-    PetType(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        PetType petType = (PetType) o;
-        return Objects.equals(id, petType.id) &&
-               Objects.equals(name, petType.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-}
+public record PetType(@Id Long id, String name) {}

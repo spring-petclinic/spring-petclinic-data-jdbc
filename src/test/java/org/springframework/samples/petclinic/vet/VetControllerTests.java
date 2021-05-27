@@ -35,16 +35,15 @@ public class VetControllerTests {
 
     @BeforeEach
     public void setup() {
-        Vet james = new Vet();
+        var james = new Vet();
         james.setFirstName("James");
         james.setLastName("Carter");
         james.setId(1L);
-        Vet helen = new Vet();
+        var helen = new Vet();
         helen.setFirstName("Helen");
         helen.setLastName("Leary");
         helen.setId(2L);
-        Specialty radiology = new Specialty("radiology");
-        radiology.setId(1L);
+        var radiology = new Specialty(1L, "radiology");
         helen.addSpecialty(radiology);
         given(this.vets.findAll()).willReturn(Lists.newArrayList(james, helen));
         given(this.specialties.findById(1L)).willReturn(radiology);
@@ -60,10 +59,10 @@ public class VetControllerTests {
 
     @Test
     public void testShowResourcesVetList() throws Exception {
-        ResultActions actions = mockMvc.perform(get("/vets")
+        var actions = mockMvc.perform(get("/vets")
             .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
         actions.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.vetList[0].id").value(1));
+            .andExpect(jsonPath("$.vets[0].id").value(1));
     }
 
 }

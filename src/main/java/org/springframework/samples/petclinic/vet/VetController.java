@@ -46,9 +46,7 @@ class VetController {
     public String showVetList(Map<String, Object> model) {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
         // objects so it is simpler for Object-Xml mapping
-        Vets vets = new Vets();
-        vets.getVetList().addAll(vetToVetDto(this.vets.findAll()));
-        model.put("vets", vets);
+        model.put("vets", new Vets(vetToVetDto(this.vets.findAll())));
         return "vets/vetList";
     }
 
@@ -57,9 +55,7 @@ class VetController {
     Vets showResourcesVetList() {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
         // objects so it is simpler for JSon/Object mapping
-        Vets vets = new Vets();
-        vets.getVetList().addAll(vetToVetDto(this.vets.findAll()));
-        return vets;
+        return new Vets(vetToVetDto(this.vets.findAll()));
     }
 
     private List<VetDto> vetToVetDto(Collection<Vet> vets) {
@@ -69,9 +65,9 @@ class VetController {
     }
 
     private VetDto vetToVetDto(Vet v) {
-        List<Specialty> specialtyList = v.getSpecialties()
+        var specialtyList = v.getSpecialties()
                                          .stream()
-                                         .map(s -> specialties.findById(s.getSpecialty()))
+                                         .map(s -> specialties.findById(s.specialty()))
                                          .collect(Collectors.toList());
         return new VetDto(v.getId(), v.getFirstName(), v.getLastName(), specialtyList);
     }

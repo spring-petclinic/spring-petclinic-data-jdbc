@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.petclinic.vet;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,16 +22,6 @@ import java.util.List;
  * org.springframework.web.servlet.view.xml.MarshallingView}.
  *
  * @author Arjen Poutsma
+ * @author Maciej Walkowiak
  */
-public class Vets {
-
-    private List<VetDto> vets;
-
-    public List<VetDto> getVetList() {
-        if (vets == null) {
-            vets = new ArrayList<>();
-        }
-        return vets;
-    }
-
-}
+public record Vets(List<VetDto> vets) {}

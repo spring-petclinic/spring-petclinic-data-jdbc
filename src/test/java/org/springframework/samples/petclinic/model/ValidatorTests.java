@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ValidatorTests {
 
     private Validator createValidator() {
-        LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
+        var localValidatorFactoryBean = new LocalValidatorFactoryBean();
         localValidatorFactoryBean.afterPropertiesSet();
         return localValidatorFactoryBean;
     }
@@ -29,19 +29,17 @@ public class ValidatorTests {
     public void shouldNotValidateWhenFirstNameEmpty() {
 
         LocaleContextHolder.setLocale(Locale.ENGLISH);
-        Owner person = new Owner();
+        var person = new Owner();
         person.setFirstName("");
         person.setLastName("smith");
         person.setAddress("some address");
         person.setCity("some city");
         person.setTelephone("9998882221");
 
-        Validator validator = createValidator();
-        Set<ConstraintViolation<Owner>> constraintViolations = validator
-                .validate(person);
+        var constraintViolations = createValidator().validate(person);
 
         assertThat(constraintViolations.size()).isEqualTo(1);
-        ConstraintViolation<Owner> violation = constraintViolations.iterator().next();
+        var violation = constraintViolations.iterator().next();
         assertThat(violation.getPropertyPath().toString()).isEqualTo("firstName");
         assertThat(violation.getMessage()).isEqualTo("must not be empty");
     }
