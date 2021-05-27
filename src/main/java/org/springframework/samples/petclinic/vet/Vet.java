@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2012-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,14 @@
  */
 package org.springframework.samples.petclinic.vet;
 
-import org.springframework.data.annotation.Id;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.validation.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
 
 /**
  * Simple JavaBean domain object representing a veterinarian.
@@ -37,58 +35,58 @@ import javax.validation.constraints.NotEmpty;
  */
 public class Vet implements Serializable {
 
-    @Id
-    private Long id;
+	@Id
+	private Long id;
 
-    @NotEmpty
-    private String firstName;
+	@NotEmpty
+	private String firstName;
 
-    @NotEmpty
-    private String lastName;
+	@NotEmpty
+	private String lastName;
 
-    private Set<SpecialtyRef> specialties;
+	private Set<SpecialtyRef> specialties;
 
-    protected Set<SpecialtyRef> getSpecialtiesInternal() {
-        if (this.specialties == null) {
-            this.specialties = new HashSet<>();
-        }
-        return this.specialties;
-    }
+	protected Set<SpecialtyRef> getSpecialtiesInternal() {
+		if (this.specialties == null) {
+			this.specialties = new HashSet<>();
+		}
+		return this.specialties;
+	}
 
-    public List<SpecialtyRef> getSpecialties() {
-        List<SpecialtyRef> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
-        return Collections.unmodifiableList(sortedSpecs);
-    }
+	public List<SpecialtyRef> getSpecialties() {
+		List<SpecialtyRef> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
+		return Collections.unmodifiableList(sortedSpecs);
+	}
 
-    public int getNrOfSpecialties() {
-        return getSpecialtiesInternal().size();
-    }
+	public int getNrOfSpecialties() {
+		return getSpecialtiesInternal().size();
+	}
 
-    public void addSpecialty(Specialty specialty) {
-        getSpecialtiesInternal().add(new SpecialtyRef(specialty.id()));
-    }
+	public void addSpecialty(Specialty specialty) {
+		getSpecialtiesInternal().add(new SpecialtyRef(specialty.id()));
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 }

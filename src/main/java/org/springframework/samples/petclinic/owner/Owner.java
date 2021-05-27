@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2012-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,9 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import org.springframework.data.annotation.Id;
-
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -31,86 +30,80 @@ import javax.validation.constraints.NotEmpty;
  */
 public class Owner {
 
-    @Id
-    private Integer id;
+	@Id
+	private Integer id;
 
-    @NotEmpty
-    private String firstName;
+	@NotEmpty
+	private String firstName;
 
-    @NotEmpty
-    private String lastName;
+	@NotEmpty
+	private String lastName;
 
-    @NotEmpty
-    private String address;
+	@NotEmpty
+	private String address;
 
-    @NotEmpty
-    private String city;
+	@NotEmpty
+	private String city;
 
-    @NotEmpty
-    @Digits(fraction = 0, integer = 10)
-    private String telephone;
+	@NotEmpty
+	@Digits(fraction = 0, integer = 10)
+	private String telephone;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public boolean isNew() {
-        return this.id == null;
-    }
+	public boolean isNew() {
+		return this.id == null;
+	}
 
-    public String getFirstName() {
-        return this.firstName;
-    }
+	public String getFirstName() {
+		return this.firstName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public String getLastName() {
-        return this.lastName;
-    }
+	public String getLastName() {
+		return this.lastName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public String getAddress() {
-        return this.address;
-    }
+	public String getAddress() {
+		return this.address;
+	}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public String getCity() {
-        return this.city;
-    }
+	public String getCity() {
+		return this.city;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public String getTelephone() {
-        return this.telephone;
-    }
+	public String getTelephone() {
+		return this.telephone;
+	}
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 
-    @Override
-    public String toString() {
-        return "Owner{" +
-               "id=" + id +
-               ", firstName='" + firstName + '\'' +
-               ", lastName='" + lastName + '\'' +
-               ", address='" + address + '\'' +
-               ", city='" + city + '\'' +
-               ", telephone='" + telephone + '\'' +
-               '}';
-    }
+	@Override
+	public String toString() {
+		return "Owner{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", address='"
+				+ address + '\'' + ", city='" + city + '\'' + ", telephone='" + telephone + '\'' + '}';
+	}
 }

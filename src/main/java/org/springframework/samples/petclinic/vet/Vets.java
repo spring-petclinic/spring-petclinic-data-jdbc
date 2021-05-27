@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2012-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,11 @@ package org.springframework.samples.petclinic.vet;
 import java.util.List;
 
 /**
- * Simple domain object representing a list of veterinarians. Mostly here to be used for the 'vets' {@link
- * org.springframework.web.servlet.view.xml.MarshallingView}.
+ * Simple domain object representing a list of veterinarians. Mostly here to be used for the 'vets'
+ * {@link org.springframework.web.servlet.view.xml.MarshallingView}.
  *
  * @author Arjen Poutsma
  * @author Maciej Walkowiak
  */
-public record Vets(List<VetDto> vets) {}
+public record Vets(List<VetDto> vets) {
+}
