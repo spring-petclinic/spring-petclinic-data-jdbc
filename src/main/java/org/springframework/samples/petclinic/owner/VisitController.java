@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2018 the original author or authors.
+ * Copyright 2012-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import java.util.Map;
+import javax.validation.Valid;
 import org.springframework.samples.petclinic.visit.Visit;
 import org.springframework.samples.petclinic.visit.VisitRepository;
 import org.springframework.stereotype.Controller;
@@ -25,10 +27,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.Map;
-
-import javax.validation.Valid;
 
 /**
  * @author Juergen Hoeller
@@ -41,60 +39,55 @@ import javax.validation.Valid;
 @Controller
 class VisitController {
 
-    private final VisitRepository visits;
-    private final PetRepository pets;
-    private final OwnerRepository owners;
+	private final VisitRepository visits;
+	private final PetRepository pets;
+	private final OwnerRepository owners;
 
+	public VisitController(VisitRepository visits, PetRepository pets, OwnerRepository owners) {
+		this.visits = visits;
+		this.pets = pets;
+		this.owners = owners;
+	}
 
-    public VisitController(VisitRepository visits,
-                           PetRepository pets,
-                           OwnerRepository owners) {
-        this.visits = visits;
-        this.pets = pets;
-        this.owners = owners;
-    }
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+	}
 
-    @InitBinder
-    public void setAllowedFields(WebDataBinder dataBinder) {
-        dataBinder.setDisallowedFields("id");
-    }
+	/**
+	 * Called before each and every @RequestMapping annotated method. 2 goals: - Make sure we always have fresh data -
+	 * Since we do not use the session scope, make sure that Pet object always has an id (Even though id is not part of
+	 * the form fields)
+	 *
+	 * @param petId
+	 * @return Pet
+	 */
+	@ModelAttribute("visit")
+	public Visit loadPetWithVisit(@PathVariable("petId") Integer petId, Map<String, Object> model) {
+		var pet = this.pets.findById(petId);
+		model.put("pet", pet);
+		model.put("owner", this.owners.findById(pet.getOwner()));
+		Visit visit = new Visit();
+		model.put("visit", visit);
+		model.put("petVisits", this.visits.findByPetId(petId));
+		return visit;
+	}
 
-    /**
-     * Called before each and every @RequestMapping annotated method.
-     * 2 goals:
-     * - Make sure we always have fresh data
-     * - Since we do not use the session scope, make sure that Pet object always has an id
-     * (Even though id is not part of the form fields)
-     *
-     * @param petId
-     * @return Pet
-     */
-    @ModelAttribute("visit")
-    public Visit loadPetWithVisit(@PathVariable("petId") Integer petId, Map<String, Object> model) {
-        var pet = this.pets.findById(petId);
-        model.put("pet", pet);
-        model.put("owner", this.owners.findById(pet.getOwner()));
-        Visit visit = new Visit();
-        model.put("visit", visit);
-        model.put("petVisits", this.visits.findByPetId(petId));
-        return visit;
-    }
+	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
+	@GetMapping("/owners/*/pets/{petId}/visits/new")
+	public String initNewVisitForm(@PathVariable("petId") Long petId, Map<String, Object> model) {
+		return "pets/createOrUpdateVisitForm";
+	}
 
-    // Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
-    @GetMapping("/owners/*/pets/{petId}/visits/new")
-    public String initNewVisitForm(@PathVariable("petId") Long petId, Map<String, Object> model) {
-        return "pets/createOrUpdateVisitForm";
-    }
-
-    // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
-    @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-    public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
-        if (result.hasErrors()) {
-            return "pets/createOrUpdateVisitForm";
-        } else {
-            this.visits.save(visit);
-            return "redirect:/owners/{ownerId}";
-        }
-    }
+	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
+	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+	public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
+		if (result.hasErrors()) {
+			return "pets/createOrUpdateVisitForm";
+		} else {
+			this.visits.save(visit);
+			return "redirect:/owners/{ownerId}";
+		}
+	}
 
 }

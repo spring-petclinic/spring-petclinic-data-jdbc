@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2012-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,16 @@
  */
 package org.springframework.samples.petclinic.visit;
 
+import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 /**
  * Repository class for <code>Visit</code> domain objects All method names are compliant with Spring Data naming
- * conventions so this interface can easily be extended for Spring Data See here: http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
+ * conventions so this interface can easily be extended for Spring Data See here:
+ * http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -33,13 +33,13 @@ import java.util.List;
  */
 public interface VisitRepository extends Repository<Visit, Integer> {
 
-    /**
-     * Save a <code>Visit</code> to the data store, either inserting or updating it.
-     *
-     * @param visit the <code>Visit</code> to save
-     */
-    void save(Visit visit) throws DataAccessException;
+	/**
+	 * Save a <code>Visit</code> to the data store, either inserting or updating it.
+	 *
+	 * @param visit the <code>Visit</code> to save
+	 */
+	void save(Visit visit) throws DataAccessException;
 
-    @Query("select * from visit where pet_id = :petId")
-    List<Visit> findByPetId(@Param("petId") Integer petId);
+	@Query("select * from visit where pet_id = :petId")
+	List<Visit> findByPetId(@Param("petId") Integer petId);
 }

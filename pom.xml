@@ -257,6 +257,30 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.11.1</version>
+                <configuration>
+                    <java>
+                        <importOrder/>
+                        <eclipse>
+                            <file>${basedir}/etc/formatting.xml</file>
+                        </eclipse>
+                        <licenseHeader>
+                            <file>${basedir}/etc/license.txt</file>
+                        </licenseHeader>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
