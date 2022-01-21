@@ -10,14 +10,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.0</version>
+        <version>3.0.0-M1</version>
     </parent>
     <name>petclinic</name>
 
     <properties>
 
         <!-- Generic properties -->
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -28,8 +28,12 @@
         <wro4j.version>1.8.0</wro4j.version>
 
         <jacoco.version>0.8.2</jacoco.version>
-        <wavefront.version>2.2.0-RC1</wavefront.version>
-        <spring-cloud.version>2020.0.3-SNAPSHOT</spring-cloud.version>
+
+        <!-- TODO: Wavefront not yet ready for Spring Boot 3 -->
+        <!-- <wavefront.version>2.2.0-RC1</wavefront.version>-->
+
+        <!-- TODO: Spring Cloud not yet ready for Spring Boot 3 -->
+        <!-- <spring-cloud.version>2020.0.3-SNAPSHOT</spring-cloud.version> -->
     </properties>
 
     <dependencies>
@@ -72,7 +76,7 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
-            <version>1.15.3</version>
+            <version>1.16.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -86,6 +90,10 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
 
         <!-- caching -->
         <dependency>
@@ -94,14 +102,11 @@
         </dependency>
 
         <!-- observability -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wavefront</groupId>
-            <artifactId>wavefront-spring-boot-starter</artifactId>
-        </dependency>
+        <!-- TODO: Adding Sleuth causes application context startup failure with: java.lang.IllegalArgumentException: Pointcut must not be null -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-sleuth</artifactId>-->
+<!--        </dependency>-->
 
         <!-- webjars -->
         <dependency>
@@ -134,20 +139,22 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.wavefront</groupId>
-                <artifactId>wavefront-spring-boot-bom</artifactId>
-                <version>${wavefront.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+                <!-- TODO: Wavefront not yet ready for Spring Boot 3 -->
+<!--            <dependency>-->
+<!--                <groupId>com.wavefront</groupId>-->
+<!--                <artifactId>wavefront-spring-boot-bom</artifactId>-->
+<!--                <version>${wavefront.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+                <!-- TODO: Spring Cloud not yet ready for Spring Boot 3 -->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-dependencies</artifactId>-->
+<!--                <version>${spring-cloud.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -205,8 +212,8 @@
             <!-- Spring Boot Actuator displays build-related information if a git.properties
               file is present at the classpath -->
             <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>
