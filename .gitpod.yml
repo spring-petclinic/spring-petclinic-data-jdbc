@@ -1,6 +1,5 @@
 tasks:
-  - before: sdk install java 17.0.4.1-tem < /dev/null
-  - init: ./mvnw --version
+  - init: sdk install java 17.0.4.1-tem < /dev/null && ./mvnw --version
 
 vscode:
   extensions:
