@@ -9,3 +9,4 @@ vscode:
     - vscjava.vscode-maven
     - Pivotal.vscode-boot-dev-pack
     - vscjava.vscode-java-test
+    - vscjava.vscode-java-pack
