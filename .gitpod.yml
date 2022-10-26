@@ -1,0 +1,10 @@
+
+tasks:
+  - init: ./mvnw install -DskipTests=false
+
+vscode:
+  extensions:
+    - redhat.java
+    - vscjava.vscode-maven
+    - Pivotal.vscode-boot-dev-pack
+    - vscjava.vscode-java-test
