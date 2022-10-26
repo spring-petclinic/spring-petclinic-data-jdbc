@@ -1,5 +1,5 @@
-tasks:
-  - init: sdk install java 17.0.4.1-tem < /dev/null && ./mvnw --version
+image:
+  file: .gitpod.Dockerfile
 
 vscode:
   extensions:
