@@ -6,7 +6,6 @@ This is a branch of the official [Spring PetClinic](https://github.com/spring-pr
 Additionally:
 
 - uses [TestContainers](http://testcontainers.org/) to spin up MySQL during integtation tests
-- uses [Wavefront](https://www.wavefront.com/) for monitoring
 
 Check original project [readme](https://github.com/spring-projects/spring-petclinic/blob/master/readme.md) for introduction the project, how to run, and how to contribute.
 
