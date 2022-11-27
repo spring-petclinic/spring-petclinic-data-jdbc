@@ -15,13 +15,13 @@
  */
 package org.springframework.samples.petclinic.vet;
 
+import jakarta.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 
 /**
