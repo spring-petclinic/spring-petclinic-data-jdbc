@@ -50,11 +50,13 @@ class PetController {
 
 	@ModelAttribute("types")
 	public Collection<PetType> populatePetTypes() {
+		System.out.println("Populating pet types");
 		return this.pets.findPetTypes();
 	}
 
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
+		System.out.println("Populating owners");
 		return this.owners.findById(ownerId);
 	}
 
