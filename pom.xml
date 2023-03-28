@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
     <artifactId>spring-petclinic-data-jdbc</artifactId>
-    <version>2.1.0.BUILD-SNAPSHOT</version>
+    <version>3.0.0.BUILD-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.5</version>
+        <version>3.0.5</version>
     </parent>
     <name>petclinic</name>
 
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
-            <version>1.17.4</version>
+            <version>1.17.5</version>
             <scope>test</scope>
         </dependency>
 
@@ -168,8 +168,8 @@
             <!-- Spring Boot Actuator displays build-related information if a git.properties
               file is present at the classpath -->
             <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>

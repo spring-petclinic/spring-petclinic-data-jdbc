@@ -15,8 +15,8 @@
  */
 package org.springframework.samples.petclinic.visit;
 
+import jakarta.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import javax.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
 
