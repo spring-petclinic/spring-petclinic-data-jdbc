@@ -82,5 +82,14 @@ jacocoTestReport {
     }
 }
 
+spotless {
+    java {
+        importOrder()
+        licenseHeaderFile file("${project.rootDir}/etc/license.txt")
+    }
+}
+
 processResources.dependsOn(generateGitProperties)
 processResources.dependsOn(compileJava)
+processResources.dependsOn(spotlessInternalRegisterDependencies)
+processResources.dependsOn(spotlessJava)
