@@ -55,3 +55,13 @@ dependencies {
 jar {
     enabled = false
 }
+
+gitProperties {
+    gitPropertiesName = "git.properties"
+    gitPropertiesResourceDir = buildDir
+    dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+    dateFormatTimeZone = 'KST'
+}
+
+processResources.dependsOn(generateGitProperties)
+processResources.dependsOn(compileJava)
