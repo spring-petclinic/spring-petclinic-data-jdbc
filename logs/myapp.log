@@ -1,0 +1,55 @@
+2023-04-23 04:31:20.026 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-04-23 04:31:20.083 [restartedMain] INFO  o.s.s.petclinic.PetClinicApplication - Starting PetClinicApplication using Java 17.0.7 with PID 4980 (/Users/syl/project/kakao/spring-petclinic-data-jdbc/build/classes/java/main started by syl in /Users/syl/project/kakao/spring-petclinic-data-jdbc)
+2023-04-23 04:31:20.086 [restartedMain] INFO  o.s.s.petclinic.PetClinicApplication - No active profile set, falling back to 1 default profile: "default"
+2023-04-23 04:31:20.195 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-04-23 04:31:20.195 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-04-23 04:31:21.706 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2023-04-23 04:31:21.785 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73 ms. Found 5 JDBC repository interfaces.
+2023-04-23 04:31:22.724 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-04-23 04:31:22.739 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-04-23 04:31:22.741 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2023-04-23 04:31:22.741 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-04-23 04:31:22.918 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-04-23 04:31:22.918 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2722 ms
+2023-04-23 04:31:23.558 [restartedMain] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.5.1 by Redgate
+2023-04-23 04:31:23.558 [restartedMain] INFO  o.f.c.i.license.VersionPrinter - See what's new here: https://flywaydb.org/documentation/learnmore/releaseNotes#9.5.1
+2023-04-23 04:31:23.559 [restartedMain] INFO  o.f.c.i.license.VersionPrinter - 
+2023-04-23 04:31:23.566 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-04-23 04:31:24.045 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7ab1c6a4
+2023-04-23 04:31:24.047 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-04-23 04:31:24.097 [restartedMain] INFO  o.f.c.i.d.base.BaseDatabaseType - Database: jdbc:mysql://localhost/petclinic (MySQL 8.0)
+2023-04-23 04:31:24.236 [restartedMain] INFO  o.f.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.058s)
+2023-04-23 04:31:24.284 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Current version of schema `petclinic`: 002
+2023-04-23 04:31:24.287 [restartedMain] INFO  o.f.core.internal.command.DbMigrate - Schema `petclinic` is up to date. No migration necessary.
+2023-04-23 04:31:24.688 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-04-23 04:31:25.916 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 14 endpoint(s) beneath base path '/manage'
+2023-04-23 04:31:26.013 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-04-23 04:31:26.036 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-04-23 04:31:26.068 [restartedMain] INFO  o.s.s.petclinic.PetClinicApplication - Started PetClinicApplication in 6.777 seconds (process running for 7.428)
+2023-04-23 04:31:40.655 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-23 04:31:40.655 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-04-23 04:31:40.659 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2023-04-23 04:31:43.507 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.509 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [SELECT * FROM owner WHERE last_name LIKE concat(?,'%')]
+2023-04-23 04:31:43.585 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.586 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.609 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.609 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.615 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.616 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.622 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.623 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.628 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.628 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.635 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.635 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.640 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.641 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.647 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.647 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.652 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.652 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:43.656 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2023-04-23 04:31:43.656 [http-nio-8080-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [select * from pet where owner_id = ?]
+2023-04-23 04:31:56.823 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-04-23 04:31:56.864 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
