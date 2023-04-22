@@ -23,6 +23,8 @@ ext {
     webjarsBootstrapVersion = '3.3.6'
     webjarsJqueryUiVersion = '1.11.4'
     webjarsJqueryVersion = '2.2.4'
+
+    jacocoVersion = '0.8.7'
 }
 
 dependencies {
@@ -61,6 +63,23 @@ gitProperties {
     gitPropertiesResourceDir = buildDir
     dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
     dateFormatTimeZone = 'KST'
+}
+
+jacoco {
+    toolVersion = jacocoVersion
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required
+        html.required
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
 }
 
 processResources.dependsOn(generateGitProperties)
