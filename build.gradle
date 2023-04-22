@@ -49,6 +49,9 @@ dependencies {
     implementation "org.webjars:jquery-ui:${webjarsJqueryUiVersion}"
     implementation "org.webjars:bootstrap:${webjarsBootstrapVersion}"
 
-    // Log
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+jar {
+    enabled = false
 }
