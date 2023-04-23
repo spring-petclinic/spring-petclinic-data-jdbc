@@ -1,10 +1,14 @@
 target/*
+build/*
+logs/*
 .settings/*
 .classpath
 .project
 .idea
 *.iml
 /target
+/build
+/logs
 .sts4-cache/
 .vscode/*
 !.vscode/settings.json
