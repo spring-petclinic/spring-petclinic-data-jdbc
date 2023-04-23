@@ -1,18 +1,16 @@
 FROM openjdk:17-jdk-slim
 
-RUN groupadd -r app && useradd -r -u 1000 -g app app
+RUN useradd -r -u 1000 devops
 RUN mkdir /app /logs
-RUN chown app:app /app /logs
+RUN chown devops /app /logs
 
-USER app
+USER devops
 WORKDIR /app
 
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
+ARG VERSION=3.0.0
+ARG JAR_FILE=build/libs/spring-petclinic-data-jdbc-${VERSION}.jar
+COPY ${JAR_FILE} petclinic.jar
 COPY src/main/resources/application.properties application.properties
 COPY src/main/resources/logback-spring.xml logback-spring.xml
 
-VOLUME /logs
-
-EXPOSE 8080
-ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-Dlogging.file.path=/logs", "-jar", "app.jar"]
+ENTRYPOINT java ${JAVA_OPTIONS} ${JAVA_AGENT_OPTIONS} -jar petclinic.jar
