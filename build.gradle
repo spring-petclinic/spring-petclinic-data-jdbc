@@ -1,0 +1,98 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.4'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.4.1'
+    id 'jacoco'
+    id 'com.diffplug.spotless' version "6.18.0"
+}
+
+group = 'org.springframework.samples'
+version = '3.0.0'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    // Spring and Spring Boot dependencies
+    testContainersMysqlVersion = '1.17.6'
+
+    // Web dependencies
+    webjarsBootstrapVersion = '3.3.6'
+    webjarsJqueryUiVersion = '1.11.4'
+    webjarsJqueryVersion = '2.2.4'
+
+    jacocoVersion = '0.8.7'
+}
+
+dependencies {
+    // Spring and Spring Boot dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.testcontainers:mysql:${testContainersMysqlVersion}"
+
+    // Databases
+    runtimeOnly  'com.mysql:mysql-connector-j'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
+
+    // Caching
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+
+    // Webjars
+    implementation "org.webjars:jquery:${webjarsJqueryVersion}"
+    implementation "org.webjars:jquery-ui:${webjarsJqueryUiVersion}"
+    implementation "org.webjars:bootstrap:${webjarsBootstrapVersion}"
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    implementation 'ch.qos.logback:logback-classic:1.4.7'
+    implementation 'ch.qos.logback:logback-core:1.4.7'
+}
+
+jar {
+    enabled = false
+}
+
+gitProperties {
+    gitPropertiesName = "git.properties"
+    gitPropertiesResourceDir = buildDir
+    dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+    dateFormatTimeZone = 'KST'
+}
+
+jacoco {
+    toolVersion = jacocoVersion
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required
+        html.required
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+spotless {
+    java {
+        importOrder()
+        licenseHeaderFile file("${project.rootDir}/etc/license.txt")
+    }
+}
+
+processResources.dependsOn(generateGitProperties)
+processResources.dependsOn(compileJava)
+processResources.dependsOn(spotlessInternalRegisterDependencies)
+processResources.dependsOn(spotlessJava)
