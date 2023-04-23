@@ -2,6 +2,7 @@ target/*
 build/*
 logs/*
 .settings/*
+.gradle/*
 .classpath
 .project
 .idea
