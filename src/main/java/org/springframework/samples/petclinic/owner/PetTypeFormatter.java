@@ -18,7 +18,8 @@ package org.springframework.samples.petclinic.owner;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Locale;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.stream.Collectors;
+
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +27,7 @@ import org.springframework.stereotype.Component;
  * Instructs Spring MVC on how to parse and print elements of type 'PetType'. Starting from Spring 3.0, Formatters have
  * come as an improvement in comparison to legacy PropertyEditors. See the following links for more details: - The
  * Spring ref doc:
- * http://static.springsource.org/spring/docs/current/spring-framework-reference/html/validation.html#format-Formatter-SPI
- * - A nice blog entry from Gordon Dickens:
- * http://gordondickens.com/wordpress/2010/09/30/using-spring-3-0-custom-type-converter/
- * <p/>
+ * <a href="https://docs.spring.io/spring-framework/reference/core/validation/format.html#format-Formatter-SPI">Formatter SPI</a>
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
@@ -40,7 +38,6 @@ public class PetTypeFormatter implements Formatter<PetType> {
 
 	private final PetRepository pets;
 
-	@Autowired
 	public PetTypeFormatter(PetRepository pets) {
 		this.pets = pets;
 	}
@@ -52,13 +49,11 @@ public class PetTypeFormatter implements Formatter<PetType> {
 
 	@Override
 	public PetType parse(String text, Locale locale) throws ParseException {
-		Collection<PetType> findPetTypes = this.pets.findPetTypes();
-		for (PetType type : findPetTypes) {
-			if (type.name().equals(text)) {
-				return type;
-			}
-		}
-		throw new ParseException("type not found: " + text, 0);
+		return this.pets.findPetTypes()
+            .stream()
+            .filter(t -> t.name().equals(text))
+            .findFirst()
+            .orElseThrow(() -> new ParseException("type not found: " + text, 0));
 	}
 
 }

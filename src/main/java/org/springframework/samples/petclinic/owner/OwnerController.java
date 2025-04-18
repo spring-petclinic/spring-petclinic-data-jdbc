@@ -141,10 +141,10 @@ class OwnerController {
 		return mav;
 	}
 
-	static record OwnerDetails(Owner owner, List<Pet> pets) {
+	record OwnerDetails(Owner owner, List<Pet> pets) {
 	}
 
-	static record PetDetails(Pet pet, PetType type, List<Visit> visits) {
+	record PetDetails(Pet pet, PetType type, List<Visit> visits) {
 	}
 
 }

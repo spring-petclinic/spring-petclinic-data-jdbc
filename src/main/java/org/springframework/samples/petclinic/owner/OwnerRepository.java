@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant with Spring Data naming
  * conventions so this interface can easily be extended for Spring Data See here:
- * http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
+ * <a href="https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html#repositories.query-methods.query-creation">Query Creation</a>
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -37,7 +37,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 	/**
 	 * Retrieve {@link Owner}s from the data store by last name, returning all owners whose last name <i>starts</i> with
 	 * the given name.
-	 * 
+	 *
 	 * @param lastName Value to search for
 	 * @return a Collection of matching {@link Owner}s (or an empty Collection if none found)
 	 */
@@ -47,7 +47,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 
 	/**
 	 * Retrieve an {@link Owner} from the data store by id.
-	 * 
+	 *
 	 * @param id the id to search for
 	 * @return the {@link Owner} if found
 	 */
@@ -56,7 +56,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 
 	/**
 	 * Save an {@link Owner} to the data store, either inserting or updating it.
-	 * 
+	 *
 	 * @param owner the {@link Owner} to save
 	 */
 	void save(Owner owner);
