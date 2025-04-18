@@ -59,7 +59,7 @@ class VisitController {
 	 * Since we do not use the session scope, make sure that Pet object always has an id (Even though id is not part of
 	 * the form fields)
 	 *
-	 * @param petId
+	 * @param petId - pet id
 	 * @return Pet
 	 */
 	@ModelAttribute("visit")
